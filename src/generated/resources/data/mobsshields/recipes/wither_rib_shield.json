@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "minecraft:bone"
+    },
+    "K": {
+      "item": "minecraft:wither_skeleton_skull"
+    },
+    "S": {
+      "item": "minecraft:shield"
+    }
+  },
+  "pattern": [
+    "BKB",
+    "BSB",
+    " B "
+  ],
+  "result": {
+    "item": "mobsshields:wither_rib_shield"
+  },
+  "show_notification": true
+}

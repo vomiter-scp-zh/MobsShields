@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/shield",
+  "overrides": [
+    {
+      "model": "mobsshields:item/rotten_flesh_shield_blocking",
+      "predicate": {
+        "mobsshields:blocking": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "particle": "mobsshields:entity/shield/rotten_flesh_shield"
+  }
+}

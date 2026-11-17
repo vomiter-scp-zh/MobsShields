@@ -9,6 +9,9 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 public final class ShieldCounterattacks {
@@ -56,6 +59,30 @@ public final class ShieldCounterattacks {
             if (holder instanceof ServerPlayer player) {
                 player.connection.send(new ClientboundSetEntityMotionPacket(holder));
             }
+        }
+    }
+
+    public static void witherRib(CounterattackContext context) {
+        LivingEntity attacker = context.attacker();
+        if (context.barehanded()) {
+            witherEffect(context, MobEffects.WEAKNESS, ShieldConfig.WITHER_UNARMED_WEAKNESS_CHANCE.get());
+            witherEffect(context, MobEffects.DIG_SLOWDOWN, ShieldConfig.WITHER_UNARMED_FATIGUE_CHANCE.get());
+        } else {
+            ItemStack weapon = context.attackWeapon();
+            int damage = ShieldConfig.WITHER_WEAPON_DAMAGE.get();
+            if (damage > 0 && !weapon.isEmpty() && weapon.isDamageableItem()) {
+                weapon.hurtAndBreak(damage, attacker,
+                        entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+            }
+            // A weapon broken by the original hit still uses the armed branch.
+            witherEffect(context, MobEffects.DIG_SLOWDOWN, ShieldConfig.WITHER_ARMED_FATIGUE_CHANCE.get());
+        }
+    }
+
+    private static void witherEffect(CounterattackContext context, MobEffect effect, double chance) {
+        int duration = ShieldConfig.WITHER_EFFECT_TICKS.get();
+        if (duration > 0 && context.level().random.nextDouble() < chance) {
+            context.attacker().addEffect(new MobEffectInstance(effect, duration, 0), context.holder());
         }
     }
 

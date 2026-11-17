@@ -37,7 +37,9 @@ public final class CounterattackHandler {
                 || source.getEntity() != attacker || attacker == holder) return;
         ItemStack shield = holder.getUseItem();
         if (!(shield.getItem() instanceof AbstractMobShieldItem)) return;
-        PENDING.addLast(new PendingCounterattack(event, holder, attacker, shield));
+        // Remember the attacking stack before vanilla can break it or change equipment this tick.
+        ItemStack weapon = attacker.getMainHandItem();
+        PENDING.addLast(new PendingCounterattack(event, holder, attacker, shield, weapon, weapon.isEmpty()));
     }
 
     @SubscribeEvent
@@ -69,12 +71,14 @@ public final class CounterattackHandler {
         // Standard equipment/container synchronization carries this to the holder and tracking players.
         shield.getOrCreateTag().put(ANIMATION_TAG, state);
         AbstractMobShieldItem item = (AbstractMobShieldItem) shield.getItem();
-        item.counterattack(new CounterattackContext(level, holder, attacker, shield, event.getBlockedDamage()));
+        item.counterattack(new CounterattackContext(level, holder, attacker, shield, event.getBlockedDamage(),
+                pending.attackWeapon(), pending.barehanded()));
     }
 
     @SubscribeEvent
     public static void onServerStopped(ServerStoppedEvent event) { PENDING.clear(); }
 
     private record PendingCounterattack(ShieldBlockEvent event, LivingEntity holder,
-                                        LivingEntity attacker, ItemStack shield) {}
+                                        LivingEntity attacker, ItemStack shield,
+                                        ItemStack attackWeapon, boolean barehanded) {}
 }

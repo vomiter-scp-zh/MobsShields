@@ -1,7 +1,9 @@
 {
   "values": [
+    "mobsshields:wither_rib_shield",
     "mobsshields:hoglin_shield",
     "mobsshields:golden_hoglin_shield",
-    "mobsshields:squid_shield"
+    "mobsshields:squid_shield",
+    "mobsshields:rotten_flesh_shield"
   ]
 }

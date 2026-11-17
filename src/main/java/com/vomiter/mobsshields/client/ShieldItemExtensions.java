@@ -1,6 +1,10 @@
 package com.vomiter.mobsshields.client;
 
 import com.vomiter.mobsshields.client.renderer.HoglinShieldRenderer;
+import com.vomiter.mobsshields.client.renderer.WitherRibShieldRenderer;
+import com.vomiter.mobsshields.common.WitherRibShieldItem;
+import com.vomiter.mobsshields.client.renderer.RottenFleshShieldRenderer;
+import com.vomiter.mobsshields.common.RottenFleshShieldItem;
 import com.vomiter.mobsshields.client.renderer.SquidShieldRenderer;
 import com.vomiter.mobsshields.common.AbstractMobShieldItem;
 import com.vomiter.mobsshields.common.HoglinShieldItem;
@@ -18,6 +22,8 @@ public final class ShieldItemExtensions implements IClientItemExtensions {
     }
 
     public static ShieldItemExtensions forShield(AbstractMobShieldItem item) {
+        if (item instanceof WitherRibShieldItem) return new ShieldItemExtensions(WitherRibShieldRenderer::getInstance);
+        if (item instanceof RottenFleshShieldItem) return new ShieldItemExtensions(RottenFleshShieldRenderer::getInstance);
         if (item instanceof SquidShieldItem) return new ShieldItemExtensions(SquidShieldRenderer::getInstance);
         if (item instanceof HoglinShieldItem) return new ShieldItemExtensions(HoglinShieldRenderer::getInstance);
         throw new IllegalArgumentException("No renderer registered for " + item.getClass().getSimpleName());

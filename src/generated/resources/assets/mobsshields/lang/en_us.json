@@ -1,10 +1,15 @@
 {
   "death.attack.mobsshields.hoglin_counterattack": "%1$s was gored by %2$s's hoglin shield",
   "death.attack.mobsshields.hoglin_counterattack.item": "%1$s was gored by %2$s using %3$s",
+  "effect.mobsshields.zombie_truce": "Undead Command",
   "item.mobsshields.golden_hoglin_shield": "Golden Hoglin Shield",
   "item.mobsshields.hoglin_shield": "Hoglin Shield",
+  "item.mobsshields.rotten_flesh_shield": "Rotten Flesh Shield",
   "item.mobsshields.squid_shield": "Squid Shield",
+  "item.mobsshields.wither_rib_shield": "Wither Rib Shield",
   "tooltip.mobsshields.golden_hoglin_shield": "Blocking melee attacks extends the tusks, damaging and strongly knocking back the attacker.",
   "tooltip.mobsshields.hoglin_shield": "Blocking melee attacks extends the tusks and pushes the attacker away.",
-  "tooltip.mobsshields.squid_shield": "Blocking melee attacks releases ink and darkens the attacker; retreats in water."
+  "tooltip.mobsshields.rotten_flesh_shield": "Blocking melee attacks may summon a zombie; after a successful summon, taking damage or blocking with this shield during the effect commands all reinforcements to attack the new attacker.",
+  "tooltip.mobsshields.squid_shield": "Blocking melee attacks releases ink and darkens the attacker; retreats in water.",
+  "tooltip.mobsshields.wither_rib_shield": "Blocking armed melee attacks wears down the attacking item and may inflict Mining Fatigue; barehanded attacks independently roll Weakness and Mining Fatigue."
 }

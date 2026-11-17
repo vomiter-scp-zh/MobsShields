@@ -18,6 +18,8 @@ public final class ShieldItemModels extends ItemModelProvider {
         shield(ShieldItems.HOGLIN_SHIELD.get());
         shield(ShieldItems.GOLDEN_HOGLIN_SHIELD.get());
         shield(ShieldItems.SQUID_SHIELD.get());
+        shield(ShieldItems.ROTTEN_FLESH_SHIELD.get());
+        shield(ShieldItems.WITHER_RIB_SHIELD.get());
     }
 
     private void shield(Item item) {

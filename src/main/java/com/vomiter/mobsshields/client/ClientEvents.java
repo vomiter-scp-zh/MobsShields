@@ -2,9 +2,12 @@ package com.vomiter.mobsshields.client;
 
 import com.vomiter.mobsshields.MobsShields;
 import com.vomiter.mobsshields.client.model.HoglinShieldModel;
+import com.vomiter.mobsshields.client.model.WitherRibShieldModel;
+import com.vomiter.mobsshields.client.renderer.WitherRibShieldRenderer;
 import com.vomiter.mobsshields.client.model.SquidShieldModel;
 import com.vomiter.mobsshields.client.renderer.HoglinShieldRenderer;
 import com.vomiter.mobsshields.client.renderer.SquidShieldRenderer;
+import com.vomiter.mobsshields.client.renderer.RottenFleshShieldRenderer;
 import com.vomiter.mobsshields.common.ShieldItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.Item;
@@ -23,12 +26,15 @@ public final class ClientEvents {
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(HoglinShieldModel.LAYER, HoglinShieldModel::createBodyLayer);
         event.registerLayerDefinition(SquidShieldModel.LAYER, SquidShieldModel::createBodyLayer);
+        event.registerLayerDefinition(WitherRibShieldModel.LAYER, WitherRibShieldModel::createBodyLayer);
     }
 
     @SubscribeEvent
     public static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(HoglinShieldRenderer.getInstance());
         event.registerReloadListener(SquidShieldRenderer.getInstance());
+        event.registerReloadListener(RottenFleshShieldRenderer.getInstance());
+        event.registerReloadListener(WitherRibShieldRenderer.getInstance());
     }
 
     @SubscribeEvent
@@ -37,6 +43,8 @@ public final class ClientEvents {
             blockingProperty(ShieldItems.HOGLIN_SHIELD.get());
             blockingProperty(ShieldItems.GOLDEN_HOGLIN_SHIELD.get());
             blockingProperty(ShieldItems.SQUID_SHIELD.get());
+            blockingProperty(ShieldItems.ROTTEN_FLESH_SHIELD.get());
+            blockingProperty(ShieldItems.WITHER_RIB_SHIELD.get());
         });
     }
 

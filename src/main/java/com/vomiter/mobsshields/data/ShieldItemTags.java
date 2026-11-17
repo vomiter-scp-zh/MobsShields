@@ -16,6 +16,7 @@ public final class ShieldItemTags extends ItemTagsProvider {
     }
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        tag(Tags.Items.TOOLS_SHIELDS).add(ShieldItems.HOGLIN_SHIELD.get(), ShieldItems.GOLDEN_HOGLIN_SHIELD.get(), ShieldItems.SQUID_SHIELD.get());
+        tag(Tags.Items.TOOLS_SHIELDS).add(ShieldItems.WITHER_RIB_SHIELD.get());
+        tag(Tags.Items.TOOLS_SHIELDS).add(ShieldItems.HOGLIN_SHIELD.get(), ShieldItems.GOLDEN_HOGLIN_SHIELD.get(), ShieldItems.SQUID_SHIELD.get(), ShieldItems.ROTTEN_FLESH_SHIELD.get());
     }
 }

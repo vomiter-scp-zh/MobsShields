@@ -15,6 +15,10 @@ public abstract class AbstractShieldModel extends HierarchicalModel<LivingEntity
     private final AnimationDefinition counterattackAnimation;
     private final Vector3f animationVector = new Vector3f();
 
+    protected AbstractShieldModel(ModelPart root) {
+        this(root, null);
+    }
+
     protected AbstractShieldModel(ModelPart root, AnimationDefinition counterattackAnimation) {
         super(RenderType::entityCutoutNoCull);
         this.root = root;
@@ -26,7 +30,7 @@ public abstract class AbstractShieldModel extends HierarchicalModel<LivingEntity
 
     public final void applyCounterattack(float elapsedTicks) {
         root.getAllParts().forEach(ModelPart::resetPose);
-        if (!Float.isFinite(elapsedTicks) || elapsedTicks < 0
+        if (counterattackAnimation == null || !Float.isFinite(elapsedTicks) || elapsedTicks < 0
                 || elapsedTicks >= counterattackAnimation.lengthInSeconds() * 20) return;
         KeyframeAnimations.animate(this, counterattackAnimation, (long) (elapsedTicks * 50), 1, animationVector);
     }

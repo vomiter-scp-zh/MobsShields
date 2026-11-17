@@ -16,5 +16,11 @@ public final class ShieldItems {
     public static final RegistryObject<SquidShieldItem> SQUID_SHIELD = ITEMS.register("squid_shield",
             () -> new SquidShieldItem(new Item.Properties().durability(384)));
 
+    public static final RegistryObject<RottenFleshShieldItem> ROTTEN_FLESH_SHIELD = ITEMS.register("rotten_flesh_shield",
+            () -> new RottenFleshShieldItem(new Item.Properties().durability(336)));
+
+    public static final RegistryObject<WitherRibShieldItem> WITHER_RIB_SHIELD = ITEMS.register("wither_rib_shield",
+            () -> new WitherRibShieldItem(new Item.Properties().durability(384)));
+
     private ShieldItems() {}
 }

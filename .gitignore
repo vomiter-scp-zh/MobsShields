@@ -7,3 +7,4 @@ build-logic/build/
 .idea/
 *.iml
 /art/
+/src/generated/resources/.cache/

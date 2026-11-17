@@ -5,4 +5,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
 public record CounterattackContext(ServerLevel level, LivingEntity holder,
-                                  LivingEntity attacker, ItemStack shield, float blockedDamage) {}
+                                  LivingEntity attacker, ItemStack shield, float blockedDamage,
+                                  ItemStack attackWeapon, boolean barehanded) {
+    public CounterattackContext(ServerLevel level, LivingEntity holder, LivingEntity attacker,
+                                ItemStack shield, float blockedDamage) {
+        this(level, holder, attacker, shield, blockedDamage,
+                attacker.getMainHandItem(), attacker.getMainHandItem().isEmpty());
+    }
+}

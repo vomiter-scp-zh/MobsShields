@@ -1,6 +1,8 @@
 package com.vomiter.mobsshields;
 
 import com.vomiter.mobsshields.common.CounterattackHandler;
+import com.vomiter.mobsshields.common.ShieldEffects;
+import com.vomiter.mobsshields.common.RottenFleshReinforcements;
 import com.vomiter.mobsshields.common.ShieldConfig;
 import com.vomiter.mobsshields.common.ShieldItems;
 import com.vomiter.mobsshields.data.ModDataGenerators;
@@ -19,10 +21,12 @@ public final class MobsShields {
     public MobsShields(FMLJavaModLoadingContext context) {
         var bus = context.getModEventBus();
         ShieldItems.ITEMS.register(bus);
+        ShieldEffects.EFFECTS.register(bus);
         bus.addListener(ModDataGenerators::gather);
         bus.addListener(this::creativeTab);
         context.registerConfig(ModConfig.Type.COMMON, ShieldConfig.SPEC);
         MinecraftForge.EVENT_BUS.register(CounterattackHandler.class);
+        MinecraftForge.EVENT_BUS.register(RottenFleshReinforcements.class);
     }
 
     private void creativeTab(BuildCreativeModeTabContentsEvent event) {
@@ -30,6 +34,8 @@ public final class MobsShields {
             event.accept(ShieldItems.HOGLIN_SHIELD);
             event.accept(ShieldItems.GOLDEN_HOGLIN_SHIELD);
             event.accept(ShieldItems.SQUID_SHIELD);
+            event.accept(ShieldItems.ROTTEN_FLESH_SHIELD);
+            event.accept(ShieldItems.WITHER_RIB_SHIELD);
         }
     }
 

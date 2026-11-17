@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "minecraft:bone"
+    },
+    "F": {
+      "item": "minecraft:rotten_flesh"
+    },
+    "S": {
+      "item": "minecraft:shield"
+    }
+  },
+  "pattern": [
+    "BFB",
+    "FSF",
+    " F "
+  ],
+  "result": {
+    "item": "mobsshields:rotten_flesh_shield"
+  },
+  "show_notification": true
+}
