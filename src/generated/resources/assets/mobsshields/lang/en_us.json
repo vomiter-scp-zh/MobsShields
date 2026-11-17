@@ -1,0 +1,10 @@
+{
+  "death.attack.mobsshields.hoglin_counterattack": "%1$s was gored by %2$s's hoglin shield",
+  "death.attack.mobsshields.hoglin_counterattack.item": "%1$s was gored by %2$s using %3$s",
+  "item.mobsshields.golden_hoglin_shield": "Golden Hoglin Shield",
+  "item.mobsshields.hoglin_shield": "Hoglin Shield",
+  "item.mobsshields.squid_shield": "Squid Shield",
+  "tooltip.mobsshields.golden_hoglin_shield": "Blocking melee attacks extends the tusks, damaging and strongly knocking back the attacker.",
+  "tooltip.mobsshields.hoglin_shield": "Blocking melee attacks extends the tusks and pushes the attacker away.",
+  "tooltip.mobsshields.squid_shield": "Blocking melee attacks releases ink and darkens the attacker; retreats in water."
+}

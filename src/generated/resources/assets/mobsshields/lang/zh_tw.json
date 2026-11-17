@@ -1,0 +1,10 @@
+{
+  "death.attack.mobsshields.hoglin_counterattack": "%1$s 被 %2$s 的疣豬盾獠牙刺穿了",
+  "death.attack.mobsshields.hoglin_counterattack.item": "%1$s 被 %2$s 使用 %3$s 的獠牙刺穿了",
+  "item.mobsshields.golden_hoglin_shield": "金色疣豬盾",
+  "item.mobsshields.hoglin_shield": "疣豬盾",
+  "item.mobsshields.squid_shield": "烏賊盾",
+  "tooltip.mobsshields.golden_hoglin_shield": "格擋近戰攻擊時伸出獠牙，傷害並強力擊退攻擊者。",
+  "tooltip.mobsshields.hoglin_shield": "格擋近戰攻擊時伸出獠牙，推開攻擊者。",
+  "tooltip.mobsshields.squid_shield": "格擋近戰攻擊時噴墨，使攻擊者陷入黑暗；在水中向後推進。"
+}

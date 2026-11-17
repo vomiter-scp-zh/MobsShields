@@ -1,0 +1,50 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version '6.0.54'
+    id 'com.vomiter.forge-base'
+    id 'com.vomiter.dev-runtime'
+    id 'com.vomiter.langmerge'
+}
+
+vomiterMod {
+    modId = mod_id
+    enableMixinExtras = false
+    enableMixinTemplate = false
+    enableSharedManifest = false
+    enableJarJarPlumbing = false
+    enableDevJar = false
+}
+langMerge { modId = mod_id }
+version = mod_version
+group = mod_group_id
+base { archivesName = mod_id }
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    mappings channel: mapping_channel, version: mapping_version
+    copyIdeResources = true
+}
+apply from: 'gradle/runs.gradle'
+apply from: 'gradle/publishing-local.gradle'
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://cursemaven.com'; content { includeGroup 'curse.maven' } }
+}
+dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    runtimeOnly fg.deobf('curse.maven:mobs-use-shields-1479835:8926669')
+    runtimeOnly fg.deobf('curse.maven:neurolib-1484243:7897734')
+}
+sourceSets.main.resources.srcDir 'src/generated/resources'
+
+tasks.named('jar', Jar).configure {
+    manifest.attributes([
+        'Specification-Title': mod_id,
+        'Implementation-Title': mod_name,
+        'Implementation-Version': mod_version,
+        'Implementation-Vendor': mod_authors
+    ])
+    finalizedBy 'reobfJar'
+}

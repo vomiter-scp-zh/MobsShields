@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "G": {
+      "tag": "forge:ingots/gold"
+    },
+    "S": {
+      "item": "mobsshields:hoglin_shield"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "GSG",
+    " G "
+  ],
+  "result": {
+    "item": "mobsshields:golden_hoglin_shield"
+  },
+  "show_notification": true
+}
