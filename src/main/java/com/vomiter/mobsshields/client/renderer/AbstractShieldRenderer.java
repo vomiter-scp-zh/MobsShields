@@ -2,7 +2,7 @@ package com.vomiter.mobsshields.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.vomiter.mobsshields.client.model.AbstractShieldModel;
-import com.vomiter.mobsshields.common.CounterattackHandler;
+import com.vomiter.mobsshields.common.counterattack.CounterattackHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -33,7 +33,6 @@ public abstract class AbstractShieldRenderer<M extends AbstractShieldModel> exte
         if (!supports(stack)) return;
         Minecraft minecraft = Minecraft.getInstance();
         if (model == null) model = bakeModel(minecraft);
-        // Models are shared: reset even when this stack has no active animation.
         model.applyCounterattack(elapsedTicks(minecraft, stack));
         pose.pushPose();
         try {

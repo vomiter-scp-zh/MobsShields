@@ -8,7 +8,7 @@ import com.vomiter.mobsshields.client.model.SquidShieldModel;
 import com.vomiter.mobsshields.client.renderer.HoglinShieldRenderer;
 import com.vomiter.mobsshields.client.renderer.SquidShieldRenderer;
 import com.vomiter.mobsshields.client.renderer.RottenFleshShieldRenderer;
-import com.vomiter.mobsshields.common.ShieldItems;
+import com.vomiter.mobsshields.registry.ShieldItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.api.distmarker.Dist;

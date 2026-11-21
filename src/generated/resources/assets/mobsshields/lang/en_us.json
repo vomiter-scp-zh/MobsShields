@@ -11,5 +11,5 @@
   "tooltip.mobsshields.hoglin_shield": "Blocking melee attacks extends the tusks and pushes the attacker away.",
   "tooltip.mobsshields.rotten_flesh_shield": "Blocking melee attacks may summon a zombie; after a successful summon, taking damage or blocking with this shield during the effect commands all reinforcements to attack the new attacker.",
   "tooltip.mobsshields.squid_shield": "Blocking melee attacks releases ink and darkens the attacker; retreats in water.",
-  "tooltip.mobsshields.wither_rib_shield": "Blocking armed melee attacks wears down the attacking item and may inflict Mining Fatigue; barehanded attacks independently roll Weakness and Mining Fatigue."
+  "tooltip.mobsshields.wither_rib_shield": "Blocking melee weapon attacks wears down the weapon and may inflict Mining Fatigue; barehanded attacks independently roll Weakness and Mining Fatigue."
 }

@@ -10,8 +10,8 @@ import net.minecraft.client.animation.KeyframeAnimations;
  * Exported for Minecraft version 1.19 or later with Mojang mappings
  * @author Author
  */
-public class HoglinTuskShieldAnimation {
-	public static final AnimationDefinition blocking = AnimationDefinition.Builder.withLength(0.6F)
+public class MobShieldAnimation {
+	public static final AnimationDefinition hoglin = AnimationDefinition.Builder.withLength(0.6F)
 		.addAnimation("appendix", new AnimationChannel(AnimationChannel.Targets.SCALE,
 			new Keyframe(0.0F, KeyframeAnimations.scaleVec(1.0F, 1.0F, 1.0F), AnimationChannel.Interpolations.LINEAR),
 			new Keyframe(0.1F, KeyframeAnimations.scaleVec(0.9F, 0.9F, 0.9F), AnimationChannel.Interpolations.LINEAR),

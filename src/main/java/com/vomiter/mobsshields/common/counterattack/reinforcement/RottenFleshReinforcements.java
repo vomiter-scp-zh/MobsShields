@@ -1,5 +1,9 @@
-package com.vomiter.mobsshields.common;
+package com.vomiter.mobsshields.common.counterattack.reinforcement;
 
+import com.vomiter.mobsshields.common.ShieldConfig;
+import com.vomiter.mobsshields.common.counterattack.CounterattackContext;
+import com.vomiter.mobsshields.common.item.RottenFleshShieldItem;
+import com.vomiter.mobsshields.registry.ShieldEffects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -9,14 +13,12 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -78,6 +80,7 @@ public final class RottenFleshReinforcements {
             zombie.discard();
             return;
         }
+        zombie.setItemSlot(EquipmentSlot.HEAD, Blocks.CARVED_PUMPKIN.asItem().getDefaultInstance());
 
         if (holder instanceof Player) {
             holder.getPersistentData().putLong(TRUCE_EXPIRY_TAG,
@@ -87,7 +90,6 @@ public final class RottenFleshReinforcements {
         }
         // Persist the latest owner order too, so that unloaded summons receive it when they return.
         ReinforcementOrders.get(level.getServer()).command(holder.getUUID(), context.attacker(), expiresAt);
-        commandLoadedSummons(holder, context.attacker());
         level.sendParticles(ParticleTypes.POOF, zombie.getX(), zombie.getY() + 0.8, zombie.getZ(),
                 12, 0.3, 0.5, 0.3, 0.02);
         level.playSound(null, zombie.blockPosition(), SoundEvents.ZOMBIE_AMBIENT,
@@ -131,19 +133,6 @@ public final class RottenFleshReinforcements {
         return target instanceof LivingEntity living && living.isAlive() ? living : null;
     }
 
-    private static void commandLoadedSummons(LivingEntity holder, LivingEntity attacker) {
-        // Command every loaded reinforcement, regardless of the nearby summon cap or dimension.
-        for (ServerLevel level : holder.getServer().getAllLevels()) {
-            for (Entity entity : level.getAllEntities()) {
-                if (entity instanceof Zombie zombie && zombie.isAlive() && isOwnedBy(zombie, holder)) {
-                    rememberTarget(zombie.getPersistentData().getCompound(SUMMON_TAG), attacker);
-                    zombie.getNavigation().stop();
-                    zombie.setTarget(level == attacker.level() ? attacker : null);
-                }
-            }
-        }
-    }
-
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onDamage(LivingDamageEvent event) {
         queueCommand(event.getEntity(), event.getSource(),
@@ -179,7 +168,6 @@ public final class RottenFleshReinforcements {
             var truce = holder.getEffect(ShieldEffects.ZOMBIE_TRUCE.get());
             long validUntil = ReinforcementOrders.now(event.getServer()) + (truce == null ? 1 : truce.getDuration());
             orders.command(holder.getUUID(), attacker, validUntil);
-            commandLoadedSummons(holder, attacker);
         }
         if (event.getServer().getTickCount() % 200 == 0) {
             ReinforcementOrders.get(event.getServer()).prune(ReinforcementOrders.now(event.getServer()));

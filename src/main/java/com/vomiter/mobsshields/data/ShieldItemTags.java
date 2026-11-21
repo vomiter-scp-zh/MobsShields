@@ -1,7 +1,7 @@
 package com.vomiter.mobsshields.data;
 
 import com.vomiter.mobsshields.MobsShields;
-import com.vomiter.mobsshields.common.ShieldItems;
+import com.vomiter.mobsshields.registry.ShieldItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.Tags;

@@ -1,6 +1,6 @@
 package com.vomiter.mobsshields.data;
 
-import com.vomiter.mobsshields.common.ShieldItems;
+import com.vomiter.mobsshields.registry.ShieldItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;

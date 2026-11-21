@@ -7,8 +7,6 @@ public final class ShieldConfig {
     public static final ForgeConfigSpec.DoubleValue HOGLIN_KNOCKBACK;
     public static final ForgeConfigSpec.DoubleValue GOLDEN_KNOCKBACK;
     public static final ForgeConfigSpec.DoubleValue GOLDEN_DAMAGE;
-    public static final ForgeConfigSpec.IntValue COOLDOWN;
-    public static final ForgeConfigSpec.DoubleValue MAX_DISTANCE;
 
     public static final ForgeConfigSpec.IntValue SQUID_DARKNESS_TICKS;
     public static final ForgeConfigSpec.DoubleValue SQUID_RETREAT_SPEED;
@@ -31,9 +29,6 @@ public final class ShieldConfig {
         GOLDEN_KNOCKBACK = builder.defineInRange("goldenHoglinKnockback", 1.1, 0.0, 4.0);
         GOLDEN_DAMAGE = builder.comment("Damage points, before armor; 2 points = 1 heart.")
                 .defineInRange("goldenHoglinDamage", 4.0, 0.0, 40.0);
-        COOLDOWN = builder.defineInRange("cooldownTicks", 20, 12, 1200);
-        MAX_DISTANCE = builder.comment("Maximum distance to the direct melee attacker. Projectiles never trigger a counterattack.")
-                .defineInRange("maxDistance", 4.0, 0.5, 16.0);
         SQUID_DARKNESS_TICKS = builder.comment("Darkness duration after a squid shield blocks melee; 0 disables darkness.")
                 .defineInRange("squidDarknessTicks", 60, 0, 1200);
         SQUID_RETREAT_SPEED = builder.comment("Horizontal retreat speed in water, in blocks per tick; 0 disables retreat.")
@@ -50,7 +45,7 @@ public final class ShieldConfig {
         builder.push("witherRibShield");
         WITHER_WEAPON_DAMAGE = builder.comment("Extra durability damage to the attacking main-hand item; respects Unbreaking and creative mode.")
                 .defineInRange("weaponDurabilityDamage", 3, 0, 1000);
-        WITHER_ARMED_FATIGUE_CHANCE = builder.comment("Chance of Mining Fatigue I when blocking an attack with a nonempty main hand.")
+        WITHER_ARMED_FATIGUE_CHANCE = builder.comment("Chance of Mining Fatigue I when blocking a sword, trident or DiggerItem tool attack.")
                 .defineInRange("armedFatigueChance", 0.10, 0.0, 1.0);
         WITHER_UNARMED_WEAKNESS_CHANCE = builder.comment("Independent chance of Weakness I when blocking an empty-main-hand attack.")
                 .defineInRange("unarmedWeaknessChance", 0.50, 0.0, 1.0);

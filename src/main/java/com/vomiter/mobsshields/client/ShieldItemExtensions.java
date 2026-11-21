@@ -2,13 +2,13 @@ package com.vomiter.mobsshields.client;
 
 import com.vomiter.mobsshields.client.renderer.HoglinShieldRenderer;
 import com.vomiter.mobsshields.client.renderer.WitherRibShieldRenderer;
-import com.vomiter.mobsshields.common.WitherRibShieldItem;
+import com.vomiter.mobsshields.common.item.WitherRibShieldItem;
 import com.vomiter.mobsshields.client.renderer.RottenFleshShieldRenderer;
-import com.vomiter.mobsshields.common.RottenFleshShieldItem;
+import com.vomiter.mobsshields.common.item.RottenFleshShieldItem;
 import com.vomiter.mobsshields.client.renderer.SquidShieldRenderer;
-import com.vomiter.mobsshields.common.AbstractMobShieldItem;
-import com.vomiter.mobsshields.common.HoglinShieldItem;
-import com.vomiter.mobsshields.common.SquidShieldItem;
+import com.vomiter.mobsshields.common.item.AbstractMobShieldItem;
+import com.vomiter.mobsshields.common.item.HoglinShieldItem;
+import com.vomiter.mobsshields.common.item.SquidShieldItem;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 

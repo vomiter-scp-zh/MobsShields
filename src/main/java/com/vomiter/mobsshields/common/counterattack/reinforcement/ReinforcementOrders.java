@@ -1,4 +1,4 @@
-package com.vomiter.mobsshields.common;
+package com.vomiter.mobsshields.common.counterattack.reinforcement;
 
 import com.vomiter.mobsshields.MobsShields;
 import net.minecraft.nbt.CompoundTag;

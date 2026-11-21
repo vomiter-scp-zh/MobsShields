@@ -1,6 +1,7 @@
-package com.vomiter.mobsshields.common;
+package com.vomiter.mobsshields.common.counterattack;
 
 import com.vomiter.mobsshields.MobsShields;
+import com.vomiter.mobsshields.common.item.AbstractMobShieldItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -20,7 +21,6 @@ import java.util.Deque;
 
 public final class CounterattackHandler {
     public static final String ANIMATION_TAG = "mobsshields_counterattack";
-    private static final String COOLDOWN_TAG = "mobsshields_last_counterattack";
     public static final ResourceKey<DamageType> COUNTERATTACK = ResourceKey.create(
             Registries.DAMAGE_TYPE, MobsShields.id("hoglin_counterattack"));
     private static final Deque<PendingCounterattack> PENDING = new ArrayDeque<>();
@@ -39,7 +39,8 @@ public final class CounterattackHandler {
         if (!(shield.getItem() instanceof AbstractMobShieldItem)) return;
         // Remember the attacking stack before vanilla can break it or change equipment this tick.
         ItemStack weapon = attacker.getMainHandItem();
-        PENDING.addLast(new PendingCounterattack(event, holder, attacker, shield, weapon, weapon.isEmpty()));
+        PENDING.addLast(new PendingCounterattack(event, holder, attacker, shield, weapon, weapon.isEmpty(),
+                CounterattackContext.isWeapon(weapon)));
     }
 
     @SubscribeEvent
@@ -57,22 +58,16 @@ public final class CounterattackHandler {
         if (event.isCanceled() || event.getBlockedDamage() <= 0 || !holder.isAlive() || !attacker.isAlive()
                 || holder.level() != attacker.level() || !(holder.level() instanceof ServerLevel level)
                 || shield.isEmpty() || (holder.getMainHandItem() != shield && holder.getOffhandItem() != shield)) return;
-        double reach = ShieldConfig.MAX_DISTANCE.get();
-        if (holder.distanceToSqr(attacker) > reach * reach || !holder.hasLineOfSight(attacker)) return;
         long now = level.getGameTime();
         String dimension = level.dimension().location().toString();
-        CompoundTag last = holder.getPersistentData().getCompound(COOLDOWN_TAG);
-        if (dimension.equals(last.getString("dimension")) && last.contains("tick")
-                && now - last.getLong("tick") >= 0 && now - last.getLong("tick") < ShieldConfig.COOLDOWN.get()) return;
         CompoundTag state = new CompoundTag();
         state.putLong("tick", now);
         state.putString("dimension", dimension);
-        holder.getPersistentData().put(COOLDOWN_TAG, state.copy());
         // Standard equipment/container synchronization carries this to the holder and tracking players.
         shield.getOrCreateTag().put(ANIMATION_TAG, state);
         AbstractMobShieldItem item = (AbstractMobShieldItem) shield.getItem();
         item.counterattack(new CounterattackContext(level, holder, attacker, shield, event.getBlockedDamage(),
-                pending.attackWeapon(), pending.barehanded()));
+                pending.attackWeapon(), pending.barehanded(), pending.weaponAttack()));
     }
 
     @SubscribeEvent
@@ -80,5 +75,5 @@ public final class CounterattackHandler {
 
     private record PendingCounterattack(ShieldBlockEvent event, LivingEntity holder,
                                         LivingEntity attacker, ItemStack shield,
-                                        ItemStack attackWeapon, boolean barehanded) {}
+                                        ItemStack attackWeapon, boolean barehanded, boolean weaponAttack) {}
 }

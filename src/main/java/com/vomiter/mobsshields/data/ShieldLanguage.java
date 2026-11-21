@@ -1,7 +1,7 @@
 package com.vomiter.mobsshields.data;
 
 import com.vomiter.mobsshields.MobsShields;
-import com.vomiter.mobsshields.common.ShieldItems;
+import com.vomiter.mobsshields.registry.ShieldItems;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -15,8 +15,8 @@ public final class ShieldLanguage extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add(ShieldItems.WITHER_RIB_SHIELD.get(), chinese ? "凋零肋骨盾" : "Wither Rib Shield");
-        add("tooltip.mobsshields.wither_rib_shield", chinese ? "格擋持物近戰攻擊時額外消耗攻擊物品耐久，並有機率施加挖掘疲勞；格擋空手攻擊時，分別判定虛弱與挖掘疲勞。"
-                : "Blocking armed melee attacks wears down the attacking item and may inflict Mining Fatigue; barehanded attacks independently roll Weakness and Mining Fatigue.");
+        add("tooltip.mobsshields.wither_rib_shield", chinese ? "格擋近戰武器攻擊時額外消耗武器耐久，並有機率施加挖掘疲勞；格擋空手攻擊時，分別判定虛弱與挖掘疲勞。"
+                : "Blocking melee weapon attacks wears down the weapon and may inflict Mining Fatigue; barehanded attacks independently roll Weakness and Mining Fatigue.");
         add(ShieldItems.HOGLIN_SHIELD.get(), chinese ? "疣豬盾" : "Hoglin Shield");
         add(ShieldItems.GOLDEN_HOGLIN_SHIELD.get(), chinese ? "金色疣豬盾" : "Golden Hoglin Shield");
         add(ShieldItems.ROTTEN_FLESH_SHIELD.get(), chinese ? "腐肉盾" : "Rotten Flesh Shield");

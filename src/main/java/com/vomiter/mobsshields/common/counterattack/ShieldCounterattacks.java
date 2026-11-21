@@ -1,5 +1,6 @@
-package com.vomiter.mobsshields.common;
+package com.vomiter.mobsshields.common.counterattack;
 
+import com.vomiter.mobsshields.common.ShieldConfig;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -67,7 +68,7 @@ public final class ShieldCounterattacks {
         if (context.barehanded()) {
             witherEffect(context, MobEffects.WEAKNESS, ShieldConfig.WITHER_UNARMED_WEAKNESS_CHANCE.get());
             witherEffect(context, MobEffects.DIG_SLOWDOWN, ShieldConfig.WITHER_UNARMED_FATIGUE_CHANCE.get());
-        } else {
+        } else if (context.weaponAttack()) {
             ItemStack weapon = context.attackWeapon();
             int damage = ShieldConfig.WITHER_WEAPON_DAMAGE.get();
             if (damage > 0 && !weapon.isEmpty() && weapon.isDamageableItem()) {

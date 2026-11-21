@@ -2,7 +2,7 @@ package com.vomiter.mobsshields.client.renderer;
 
 import com.vomiter.mobsshields.MobsShields;
 import com.vomiter.mobsshields.client.model.RottenFleshShieldModel;
-import com.vomiter.mobsshields.common.RottenFleshShieldItem;
+import com.vomiter.mobsshields.common.item.RottenFleshShieldItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.resources.ResourceLocation;

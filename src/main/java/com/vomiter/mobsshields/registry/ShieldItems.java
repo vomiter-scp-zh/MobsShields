@@ -1,6 +1,10 @@
-package com.vomiter.mobsshields.common;
+package com.vomiter.mobsshields.registry;
 
 import com.vomiter.mobsshields.MobsShields;
+import com.vomiter.mobsshields.common.item.WitherRibShieldItem;
+import com.vomiter.mobsshields.common.item.HoglinShieldItem;
+import com.vomiter.mobsshields.common.item.RottenFleshShieldItem;
+import com.vomiter.mobsshields.common.item.SquidShieldItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

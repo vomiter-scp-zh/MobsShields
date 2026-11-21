@@ -2,7 +2,7 @@ package com.vomiter.mobsshields.client.renderer;
 
 import com.vomiter.mobsshields.MobsShields;
 import com.vomiter.mobsshields.client.model.SquidShieldModel;
-import com.vomiter.mobsshields.common.SquidShieldItem;
+import com.vomiter.mobsshields.common.item.SquidShieldItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

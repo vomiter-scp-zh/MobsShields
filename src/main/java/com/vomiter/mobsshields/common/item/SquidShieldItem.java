@@ -1,5 +1,7 @@
-package com.vomiter.mobsshields.common;
+package com.vomiter.mobsshields.common.item;
 
+import com.vomiter.mobsshields.common.counterattack.ShieldCounterattack;
+import com.vomiter.mobsshields.common.counterattack.ShieldCounterattacks;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 

@@ -1,7 +1,7 @@
 package com.vomiter.mobsshields.client.model;
 
 import com.vomiter.mobsshields.MobsShields;
-import com.vomiter.mobsshields.client.HoglinTuskShieldAnimation;
+import com.vomiter.mobsshields.client.MobShieldAnimation;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -15,7 +15,7 @@ public final class HoglinShieldModel extends AbstractShieldModel {
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(MobsShields.id("hoglin_shield"), "main");
 
     public HoglinShieldModel(ModelPart root) {
-        super(root, HoglinTuskShieldAnimation.blocking);
+        super(root, MobShieldAnimation.hoglin);
     }
 
     public static LayerDefinition createBodyLayer() {

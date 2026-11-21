@@ -1,6 +1,9 @@
-package com.vomiter.mobsshields.common;
+package com.vomiter.mobsshields.common.item;
 
 import com.vomiter.mobsshields.client.ShieldItemExtensions;
+import com.vomiter.mobsshields.common.counterattack.CounterattackContext;
+import com.vomiter.mobsshields.common.counterattack.CounterattackHandler;
+import com.vomiter.mobsshields.common.counterattack.ShieldCounterattack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;

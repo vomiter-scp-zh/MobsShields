@@ -2,7 +2,7 @@ package com.vomiter.mobsshields.client.renderer;
 
 import com.vomiter.mobsshields.MobsShields;
 import com.vomiter.mobsshields.client.model.HoglinShieldModel;
-import com.vomiter.mobsshields.common.HoglinShieldItem;
+import com.vomiter.mobsshields.common.item.HoglinShieldItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

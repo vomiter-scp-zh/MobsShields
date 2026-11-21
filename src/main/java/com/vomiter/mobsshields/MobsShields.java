@@ -1,10 +1,10 @@
 package com.vomiter.mobsshields;
 
-import com.vomiter.mobsshields.common.CounterattackHandler;
-import com.vomiter.mobsshields.common.ShieldEffects;
-import com.vomiter.mobsshields.common.RottenFleshReinforcements;
+import com.vomiter.mobsshields.common.counterattack.CounterattackHandler;
+import com.vomiter.mobsshields.registry.ShieldEffects;
+import com.vomiter.mobsshields.common.counterattack.reinforcement.RottenFleshReinforcements;
 import com.vomiter.mobsshields.common.ShieldConfig;
-import com.vomiter.mobsshields.common.ShieldItems;
+import com.vomiter.mobsshields.registry.ShieldItems;
 import com.vomiter.mobsshields.data.ModDataGenerators;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;

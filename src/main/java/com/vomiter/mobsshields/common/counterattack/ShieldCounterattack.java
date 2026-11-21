@@ -1,4 +1,4 @@
-package com.vomiter.mobsshields.common;
+package com.vomiter.mobsshields.common.counterattack;
 
 /** Called once on the server after a successful, eligible melee block. */
 @FunctionalInterface
