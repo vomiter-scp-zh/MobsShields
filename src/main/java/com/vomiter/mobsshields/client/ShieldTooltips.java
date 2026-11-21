@@ -28,16 +28,21 @@ public final class ShieldTooltips {
         List<Component> lines = event.getToolTip();
         boolean hoglinLoot = shield instanceof HoglinShieldItem hoglin && !hoglin.isGolden();
         if (hoglinLoot || shield instanceof SquidShieldItem) {
-            lines.add(text("loot_hint").withStyle(ChatFormatting.GRAY));
             if (Screen.hasShiftDown()) {
                 lines.add(text(hoglinLoot ? "bastion" : "ocean"));
+            } else {
+                lines.add(text("loot_hint").withStyle(ChatFormatting.GRAY));
             }
         }
 
-        lines.add(text("counter_hint").withStyle(ChatFormatting.GRAY));
         long window = Minecraft.getInstance().getWindow().getWindow();
-        if (!(InputConstants.isKeyDown(window, GLFW.GLFW_KEY_LEFT_CONTROL)
-                || InputConstants.isKeyDown(window, GLFW.GLFW_KEY_RIGHT_CONTROL)) || !ShieldConfig.SPEC.isLoaded()) return;
+        boolean controlDown = InputConstants.isKeyDown(window, GLFW.GLFW_KEY_LEFT_CONTROL)
+                || InputConstants.isKeyDown(window, GLFW.GLFW_KEY_RIGHT_CONTROL);
+        if (!controlDown) {
+            lines.add(text("counter_hint").withStyle(ChatFormatting.GRAY));
+            return;
+        }
+        if (!ShieldConfig.SPEC.isLoaded()) return;
         int header = lines.size();
         lines.add(text("on_block").withStyle(ChatFormatting.GRAY));
         if (shield instanceof HoglinShieldItem hoglin) {
