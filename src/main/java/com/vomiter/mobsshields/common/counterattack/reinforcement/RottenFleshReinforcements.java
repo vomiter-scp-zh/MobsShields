@@ -190,9 +190,9 @@ public final class RottenFleshReinforcements {
             zombie.discard();
             return;
         }
-        zombie.setItemSlot(EquipmentSlot.HEAD, Blocks.CARVED_PUMPKIN.asItem().getDefaultInstance());
 
         if (holder instanceof Player) {
+            zombie.setItemSlot(EquipmentSlot.HEAD, Blocks.CARVED_PUMPKIN.asItem().getDefaultInstance());
             holder.getPersistentData().putLong(TRUCE_EXPIRY_TAG,
                     Math.max(expiresAt, holder.getPersistentData().getLong(TRUCE_EXPIRY_TAG)));
             holder.addEffect(new MobEffectInstance(ShieldEffects.ZOMBIE_TRUCE.get(),

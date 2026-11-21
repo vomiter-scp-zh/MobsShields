@@ -28,6 +28,7 @@ public final class MobsShields {
         MinecraftForge.EVENT_BUS.register(CounterattackHandler.class);
         MinecraftForge.EVENT_BUS.register(RottenFleshReinforcements.class);
         RottenFleshReinforcements.init();
+        CounterattackHandler.init();
     }
 
     private void creativeTab(BuildCreativeModeTabContentsEvent event) {

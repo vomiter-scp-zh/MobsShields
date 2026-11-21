@@ -10,10 +10,12 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.ShieldBlockEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.ArrayDeque;
@@ -27,28 +29,40 @@ public final class CounterattackHandler {
 
     private CounterattackHandler() {}
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onShieldBlock(ShieldBlockEvent event) {
-        LivingEntity holder = event.getEntity();
-        if (holder.level().isClientSide() || event.getBlockedDamage() <= 0) return;
-        DamageSource source = event.getDamageSource();
-        // Counterattacks cannot start shield-to-shield recursion. Arrows/tridents do not count as melee.
-        if (source.is(COUNTERATTACK) || !(source.getDirectEntity() instanceof LivingEntity attacker)
-                || source.getEntity() != attacker || attacker == holder) return;
-        ItemStack shield = holder.getUseItem();
-        if (!(shield.getItem() instanceof AbstractMobShieldItem)) return;
-        // Remember the attacking stack before vanilla can break it or change equipment this tick.
-        ItemStack weapon = attacker.getMainHandItem();
-        PENDING.addLast(new PendingCounterattack(event, holder, attacker, shield, weapon, weapon.isEmpty(),
-                CounterattackContext.isWeapon(weapon)));
+    public static void init(){
+        IEventBus bus = MinecraftForge.EVENT_BUS;
+        bus.addListener(EventPriority.LOWEST, Events::onShieldBlock);
+        bus.addListener(Events::onServerTick);
+        bus.addListener(Events::onServerStopped);
     }
 
-    @SubscribeEvent
-    public static void onServerTick(TickEvent.ServerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
-        // The original hit and all other event listeners finish before we deal retaliation damage.
-        while (!PENDING.isEmpty()) execute(PENDING.removeFirst());
+    static class Events{
+        public static void onShieldBlock(ShieldBlockEvent event) {
+            LivingEntity holder = event.getEntity();
+            if (holder.level().isClientSide() || event.getBlockedDamage() <= 0) return;
+            DamageSource source = event.getDamageSource();
+            // Counterattacks cannot start shield-to-shield recursion. Arrows/tridents do not count as melee.
+            if (source.is(COUNTERATTACK) || !(source.getDirectEntity() instanceof LivingEntity attacker)
+                    || source.getEntity() != attacker || attacker == holder) return;
+            ItemStack shield = holder.getUseItem();
+            if (!(shield.getItem() instanceof AbstractMobShieldItem)) return;
+            // Remember the attacking stack before vanilla can break it or change equipment this tick.
+            ItemStack weapon = attacker.getMainHandItem();
+            PENDING.addLast(new PendingCounterattack(event, holder, attacker, shield, weapon, weapon.isEmpty(),
+                    CounterattackContext.isWeapon(weapon)));
+        }
+
+        public static void onServerTick(TickEvent.ServerTickEvent event) {
+            if (event.phase != TickEvent.Phase.END) return;
+            // The original hit and all other event listeners finish before we deal retaliation damage.
+            while (!PENDING.isEmpty()) execute(PENDING.removeFirst());
+        }
+
+        public static void onServerStopped(ServerStoppedEvent event) {
+            PENDING.clear();
+        }
     }
+
 
     private static void execute(PendingCounterattack pending) {
         ShieldBlockEvent event = pending.event();
@@ -69,9 +83,6 @@ public final class CounterattackHandler {
         item.counterattack(new CounterattackContext(level, holder, attacker, shield, event.getBlockedDamage(),
                 pending.attackWeapon(), pending.barehanded(), pending.weaponAttack()));
     }
-
-    @SubscribeEvent
-    public static void onServerStopped(ServerStoppedEvent event) { PENDING.clear(); }
 
     private record PendingCounterattack(ShieldBlockEvent event, LivingEntity holder,
                                         LivingEntity attacker, ItemStack shield,
