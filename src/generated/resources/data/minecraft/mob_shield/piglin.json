@@ -1,0 +1,8 @@
+{
+  "chance": 0.25,
+  "check_continue_to_use_interval": 10,
+  "cooldown_duration": 60,
+  "min_difficulty": 2,
+  "shield_id": "mobsshields:hoglin_shield",
+  "use_duration": 60
+}

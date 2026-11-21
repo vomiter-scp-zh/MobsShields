@@ -8,3 +8,4 @@ build-logic/build/
 *.iml
 /art/
 /src/generated/resources/.cache/
+/models/blockbench/wither_rib_shield.bbmodel
