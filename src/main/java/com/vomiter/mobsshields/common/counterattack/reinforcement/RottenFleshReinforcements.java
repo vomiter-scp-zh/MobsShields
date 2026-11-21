@@ -32,7 +32,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -53,7 +52,6 @@ public final class RottenFleshReinforcements {
         bus.addListener(EventPriority.LOWEST, Events::onShieldBlock);
         bus.addListener(EventPriority.LOWEST, Events::onJoinLevel);
 
-        bus.addListener(Events::onServerTick);
         bus.addListener(Events::onServerTick);
         bus.addListener(Events::onZombieTick);
         bus.addListener(Events::onSummonDrops);

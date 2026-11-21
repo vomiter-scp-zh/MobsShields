@@ -11,25 +11,28 @@ import com.vomiter.mobsshields.client.renderer.RottenFleshShieldRenderer;
 import com.vomiter.mobsshields.registry.ShieldItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-@Mod.EventBusSubscriber(modid = MobsShields.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class ClientEvents {
     private ClientEvents() {}
 
-    @SubscribeEvent
+    public static void register(IEventBus modBus) {
+        modBus.addListener(ClientEvents::registerLayers);
+        modBus.addListener(ClientEvents::registerReloadListeners);
+        modBus.addListener(ClientEvents::setup);
+        MinecraftForge.EVENT_BUS.addListener(ShieldTooltips::onTooltip);
+    }
+
     public static void registerLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(HoglinShieldModel.LAYER, HoglinShieldModel::createBodyLayer);
         event.registerLayerDefinition(SquidShieldModel.LAYER, SquidShieldModel::createBodyLayer);
         event.registerLayerDefinition(WitherRibShieldModel.LAYER, WitherRibShieldModel::createBodyLayer);
     }
 
-    @SubscribeEvent
     public static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(HoglinShieldRenderer.getInstance());
         event.registerReloadListener(SquidShieldRenderer.getInstance());
@@ -37,7 +40,6 @@ public final class ClientEvents {
         event.registerReloadListener(WitherRibShieldRenderer.getInstance());
     }
 
-    @SubscribeEvent
     public static void setup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             blockingProperty(ShieldItems.HOGLIN_SHIELD.get());

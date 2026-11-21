@@ -11,7 +11,7 @@ public final class RottenFleshShieldItem extends AbstractMobShieldItem {
     }
 
     public RottenFleshShieldItem(Properties properties, ShieldCounterattack counterattack) {
-        super(properties, "tooltip.mobsshields.rotten_flesh_shield", counterattack);
+        super(properties, counterattack);
     }
 
     @Override

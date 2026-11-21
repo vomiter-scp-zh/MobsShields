@@ -15,19 +15,28 @@ public final class ShieldLanguage extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add(ShieldItems.WITHER_RIB_SHIELD.get(), chinese ? "凋零肋骨盾" : "Wither Rib Shield");
-        add("tooltip.mobsshields.wither_rib_shield", chinese ? "格擋近戰武器攻擊時額外消耗武器耐久，並有機率施加挖掘疲勞；格擋空手攻擊時，分別判定虛弱與挖掘疲勞。"
-                : "Blocking melee weapon attacks wears down the weapon and may inflict Mining Fatigue; barehanded attacks independently roll Weakness and Mining Fatigue.");
         add(ShieldItems.HOGLIN_SHIELD.get(), chinese ? "疣豬盾" : "Hoglin Shield");
         add(ShieldItems.GOLDEN_HOGLIN_SHIELD.get(), chinese ? "金色疣豬盾" : "Golden Hoglin Shield");
         add(ShieldItems.ROTTEN_FLESH_SHIELD.get(), chinese ? "腐肉盾" : "Rotten Flesh Shield");
         add("effect.mobsshields.zombie_truce", chinese ? "亡者號令" : "Undead Command");
-        add("tooltip.mobsshields.rotten_flesh_shield", chinese ? "格擋近戰攻擊時有機率召喚殭屍；成功召喚後，在效果期間受傷或以腐肉盾格擋會指揮所有增援攻擊新攻擊者。"
-                : "Blocking melee attacks may summon a zombie; after a successful summon, taking damage or blocking with this shield during the effect commands all reinforcements to attack the new attacker.");
         add(ShieldItems.SQUID_SHIELD.get(), chinese ? "烏賊盾" : "Squid Shield");
-        add("tooltip.mobsshields.squid_shield", chinese ? "格擋近戰攻擊時噴墨，使攻擊者陷入黑暗；在水中向後推進。"
-                : "Blocking melee attacks releases ink and darkens the attacker; retreats in water.");
-        add("tooltip.mobsshields.hoglin_shield", chinese ? "格擋近戰攻擊時伸出獠牙，推開攻擊者。" : "Blocking melee attacks extends the tusks and pushes the attacker away.");
-        add("tooltip.mobsshields.golden_hoglin_shield", chinese ? "格擋近戰攻擊時伸出獠牙，傷害並強力擊退攻擊者。" : "Blocking melee attacks extends the tusks, damaging and strongly knocking back the attacker.");
+        add("tooltip.mobsshields.loot_hint", chinese ? "[Shift] 寶箱來源" : "[Shift] Chest loot");
+        add("tooltip.mobsshields.counter_hint", chinese ? "[Ctrl] 反擊效果" : "[Ctrl] Counterattack");
+        add("tooltip.mobsshields.bastion", chinese ? "  堡壘遺跡的疣豬獸欄箱與一般箱" : "  Bastion remnants: hoglin stable and generic chests");
+        add("tooltip.mobsshields.ocean", chinese ? "  沉船寶箱、大型海底廢墟寶箱" : "  Shipwreck treasure chests and large ocean ruin chests");
+        add("tooltip.mobsshields.on_block", chinese ? "格擋近戰攻擊時" : "When blocking a melee attack");
+        add("tooltip.mobsshields.damage", chinese ? "  對攻擊者造成 %s 點傷害" : "  Deals %s damage to the attacker");
+        add("tooltip.mobsshields.knockback", chinese ? "  擊退攻擊者" : "  Knocks the attacker back");
+        add("tooltip.mobsshields.ink", chinese ? "  噴墨，使攻擊者陷入黑暗 %s 秒" : "  Sprays ink, inflicting Darkness for %s s");
+        add("tooltip.mobsshields.retreat", chinese ? "  若身在水中，向後游開" : "  Propels you backward in water");
+        add("tooltip.mobsshields.summon", chinese ? "  %s 機率召喚殭屍並獲得亡者號令" : "  %s chance to summon a zombie and gain Undead Command");
+        add("tooltip.mobsshields.command", chinese ? "  號令期間，受傷或以此盾格擋會讓援軍轉攻該敵人" : "  While commanding, taking damage or blocking with this shield redirects your zombies to the attacker");
+        add("tooltip.mobsshields.wear", chinese ? "  攻擊者的武器額外消耗 %s 點耐久" : "  Deals %s extra durability damage to the attacking weapon");
+        add("tooltip.mobsshields.can_inflict", chinese ? "可能施加的效果" : "Can inflict:");
+        add("tooltip.mobsshields.armed", chinese ? "  %1$s · %2$s（持近戰武器攻擊時）" : "  %1$s · %2$s (if attacked with a melee weapon)");
+        add("tooltip.mobsshields.bare", chinese ? "  %1$s · %2$s（空手攻擊時）" : "  %1$s · %2$s (if attacked with a bare hand)");
+        add("tooltip.mobsshields.strong_knockback", chinese ? "  強力擊退攻擊者" : "  Strongly knocks the attacker back");
+        add("tooltip.mobsshields.disabled", chinese ? "  目前設定已停用此反擊效果" : "  Disabled by the current settings");
         add("death.attack.mobsshields.hoglin_counterattack", chinese ? "%1$s 被 %2$s 的疣豬盾獠牙刺穿了" : "%1$s was gored by %2$s's hoglin shield");
         add("death.attack.mobsshields.hoglin_counterattack.item", chinese ? "%1$s 被 %2$s 使用 %3$s 的獠牙刺穿了" : "%1$s was gored by %2$s using %3$s");
     }

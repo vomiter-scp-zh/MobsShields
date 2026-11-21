@@ -1,5 +1,6 @@
 package com.vomiter.mobsshields;
 
+import com.vomiter.mobsshields.client.ClientEvents;
 import com.vomiter.mobsshields.common.counterattack.CounterattackHandler;
 import com.vomiter.mobsshields.registry.ShieldEffects;
 import com.vomiter.mobsshields.common.counterattack.reinforcement.RottenFleshReinforcements;
@@ -8,7 +9,8 @@ import com.vomiter.mobsshields.common.loot.AddShieldLootModifier;
 import com.vomiter.mobsshields.registry.ShieldItems;
 import com.vomiter.mobsshields.data.ModDataGenerators;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -26,9 +28,10 @@ public final class MobsShields {
         AddShieldLootModifier.SERIALIZERS.register(bus);
         bus.addListener(ModDataGenerators::gather);
         bus.addListener(this::creativeTab);
-        context.registerConfig(ModConfig.Type.COMMON, ShieldConfig.SPEC);
-        MinecraftForge.EVENT_BUS.register(CounterattackHandler.class);
-        MinecraftForge.EVENT_BUS.register(RottenFleshReinforcements.class);
+        context.registerConfig(ModConfig.Type.SERVER, ShieldConfig.SPEC);
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            ClientEvents.register(bus);
+        }
         RottenFleshReinforcements.init();
         CounterattackHandler.init();
     }

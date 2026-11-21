@@ -13,7 +13,7 @@ public final class HoglinShieldItem extends AbstractMobShieldItem {
     }
 
     public HoglinShieldItem(boolean golden, Properties properties, ShieldCounterattack counterattack) {
-        super(properties, "tooltip.mobsshields." + (golden ? "golden_hoglin_shield" : "hoglin_shield"), counterattack);
+        super(properties, counterattack);
         this.golden = golden;
     }
 

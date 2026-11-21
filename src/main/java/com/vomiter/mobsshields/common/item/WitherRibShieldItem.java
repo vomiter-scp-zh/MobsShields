@@ -11,7 +11,7 @@ public final class WitherRibShieldItem extends AbstractMobShieldItem {
     }
 
     public WitherRibShieldItem(Properties properties, ShieldCounterattack counterattack) {
-        super(properties, "tooltip.mobsshields.wither_rib_shield", counterattack);
+        super(properties, counterattack);
     }
 
     @Override

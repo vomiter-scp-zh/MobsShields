@@ -11,7 +11,7 @@ public final class SquidShieldItem extends AbstractMobShieldItem {
     }
 
     public SquidShieldItem(Properties properties, ShieldCounterattack counterattack) {
-        super(properties, "tooltip.mobsshields.squid_shield", counterattack);
+        super(properties, counterattack);
     }
 
     @Override
