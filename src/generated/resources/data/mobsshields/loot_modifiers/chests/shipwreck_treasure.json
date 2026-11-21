@@ -1,0 +1,14 @@
+{
+  "type": "mobsshields:add_shield",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/shipwreck_treasure"
+    },
+    {
+      "chance": 0.15,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "shield": "mobsshields:squid_shield"
+}

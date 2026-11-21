@@ -9,6 +9,7 @@ public final class ModDataGenerators {
         var generator = event.getGenerator();
         var output = generator.getPackOutput();
         generator.addProvider(event.includeServer(), new ShieldMobEquipment(output));
+        generator.addProvider(event.includeServer(), new ShieldChestLoot(output));
         generator.addProvider(event.includeClient(), new ShieldItemModels(output, event.getExistingFileHelper()));
         generator.addProvider(event.includeClient(), new ShieldLanguage(output, "en_us"));
         generator.addProvider(event.includeClient(), new ShieldLanguage(output, "zh_tw"));

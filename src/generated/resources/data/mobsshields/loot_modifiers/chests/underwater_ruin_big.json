@@ -1,0 +1,14 @@
+{
+  "type": "mobsshields:add_shield",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/underwater_ruin_big"
+    },
+    {
+      "chance": 0.1,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "shield": "mobsshields:squid_shield"
+}
