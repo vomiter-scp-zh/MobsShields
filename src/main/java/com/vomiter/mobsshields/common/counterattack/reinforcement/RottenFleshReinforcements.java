@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
@@ -30,6 +31,7 @@ import net.minecraftforge.event.entity.living.ShieldBlockEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.ArrayDeque;
@@ -44,6 +46,111 @@ public final class RottenFleshReinforcements {
     private static final Deque<PendingCommand> PENDING_COMMANDS = new ArrayDeque<>();
 
     private RottenFleshReinforcements() {}
+
+    public static void init(){
+        IEventBus bus = MinecraftForge.EVENT_BUS;
+        bus.addListener(EventPriority.LOWEST, Events::onDamage);
+        bus.addListener(EventPriority.LOWEST, Events::onShieldBlock);
+        bus.addListener(EventPriority.LOWEST, Events::onJoinLevel);
+
+        bus.addListener(Events::onServerTick);
+        bus.addListener(Events::onServerTick);
+        bus.addListener(Events::onZombieTick);
+        bus.addListener(Events::onSummonDrops);
+        bus.addListener(Events::onSummonExperience);
+        bus.addListener(Events::onServerStopped);
+        bus.addListener(Events::onPlayerLogin);
+
+    }
+
+    static class Events{
+
+        public static void onZombieTick(LivingEvent.LivingTickEvent event) {
+            if (event.getEntity().level().isClientSide() || !(event.getEntity() instanceof Zombie zombie)) return;
+            if (!isSummoned(zombie)) return;
+            CompoundTag state = zombie.getPersistentData().getCompound(SUMMON_TAG);
+            ServerLevel level = (ServerLevel) zombie.level();
+            long now = ReinforcementOrders.now(level.getServer());
+            if (now >= state.getLong("expiresAt")) {
+                zombie.discard();
+                return;
+            }
+            if (state.hasUUID("owner")) {
+                var order = ReinforcementOrders.get(level.getServer()).find(state.getUUID("owner"), now);
+                if (order != null) {
+                    state.putUUID("target", order.target());
+                    state.putString("targetDimension", order.dimension());
+                }
+            }
+            // Keep the assigned target even when unloaded temporarily; never pick an unrelated target.
+            LivingEntity target = resolveTarget(level, state);
+            if (zombie.getTarget() != target) {
+                zombie.getNavigation().stop();
+                zombie.setTarget(target);
+            }
+        }
+
+        public static void onSummonDrops(LivingDropsEvent event) {
+            if (isSummoned(event.getEntity())) event.setCanceled(true);
+        }
+
+        public static void onSummonExperience(LivingExperienceDropEvent event) {
+            if (isSummoned(event.getEntity())) event.setDroppedExperience(0);
+        }
+
+        public static void onDamage(LivingDamageEvent event) {
+            queueCommand(event.getEntity(), event.getSource(),
+                    () -> !event.isCanceled() && event.getAmount() > 0);
+        }
+
+        public static void onShieldBlock(ShieldBlockEvent event) {
+            if (event.getEntity().getUseItem().getItem() instanceof RottenFleshShieldItem) {
+                queueCommand(event.getEntity(), event.getDamageSource(),
+                        () -> !event.isCanceled() && event.getBlockedDamage() > 0);
+            }
+        }
+
+        public static void onServerTick(TickEvent.ServerTickEvent event) {
+            if (event.phase != TickEvent.Phase.END) return;
+            // Wait until later listeners have finalized damage/block cancellation and amounts.
+            while (!PENDING_COMMANDS.isEmpty()) {
+                PendingCommand pending = PENDING_COMMANDS.removeFirst();
+                LivingEntity holder = pending.holder();
+                LivingEntity attacker = pending.attacker();
+                if (!pending.accepted().getAsBoolean() || !attacker.isAlive()
+                        || holder.level() != attacker.level()) continue;
+                ReinforcementOrders orders = ReinforcementOrders.get(event.getServer());
+                var truce = holder.getEffect(ShieldEffects.ZOMBIE_TRUCE.get());
+                long validUntil = ReinforcementOrders.now(event.getServer()) + (truce == null ? 1 : truce.getDuration());
+                orders.command(holder.getUUID(), attacker, validUntil);
+            }
+            if (event.getServer().getTickCount() % 200 == 0) {
+                ReinforcementOrders.get(event.getServer()).prune(ReinforcementOrders.now(event.getServer()));
+            }
+        }
+
+        public static void onJoinLevel(EntityJoinLevelEvent event) {
+            if (!event.getLevel().isClientSide() && event.getEntity() instanceof Zombie zombie && isSummoned(zombie)) {
+                // Only alter goals here; world/entity lookups wait until the first tick to avoid chunk-load deadlocks.
+                clearTargetSelector(zombie);
+            }
+        }
+
+        public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+            Player player = event.getEntity();
+            var truce = player.getEffect(ShieldEffects.ZOMBIE_TRUCE.get());
+            if (truce == null || !player.getPersistentData().contains(TRUCE_EXPIRY_TAG)) return;
+            long remaining = player.getPersistentData().getLong(TRUCE_EXPIRY_TAG)
+                    - ReinforcementOrders.now(player.getServer());
+            if (remaining < truce.getDuration()) {
+                player.removeEffect(ShieldEffects.ZOMBIE_TRUCE.get());
+                if (remaining > 0) player.addEffect(new MobEffectInstance(ShieldEffects.ZOMBIE_TRUCE.get(),
+                        (int) remaining, truce.getAmplifier(), truce.isAmbient(), truce.isVisible(), truce.showIcon()));
+            }
+        }
+
+        public static void onServerStopped(ServerStoppedEvent event) { PENDING_COMMANDS.clear(); }
+    }
 
     public static void summon(CounterattackContext context) {
         ServerLevel level = context.level();
@@ -67,7 +174,10 @@ public final class RottenFleshReinforcements {
         zombie.setCanPickUpLoot(false);
         zombie.setPersistenceRequired();
         var reinforcementChance = zombie.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE);
-        if (reinforcementChance != null) reinforcementChance.setBaseValue(0);
+        if (reinforcementChance != null) {
+            reinforcementChance.setBaseValue(0);
+            reinforcementChance.removeModifiers();
+        }
         CompoundTag state = new CompoundTag();
         state.putUUID("owner", holder.getUUID());
         int lifetime = ShieldConfig.ROTTEN_LIFETIME_TICKS.get();
@@ -133,71 +243,12 @@ public final class RottenFleshReinforcements {
         return target instanceof LivingEntity living && living.isAlive() ? living : null;
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onDamage(LivingDamageEvent event) {
-        queueCommand(event.getEntity(), event.getSource(),
-                () -> !event.isCanceled() && event.getAmount() > 0);
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onShieldBlock(ShieldBlockEvent event) {
-        if (event.getEntity().getUseItem().getItem() instanceof RottenFleshShieldItem) {
-            queueCommand(event.getEntity(), event.getDamageSource(),
-                    () -> !event.isCanceled() && event.getBlockedDamage() > 0);
-        }
-    }
-
     private static void queueCommand(LivingEntity holder, DamageSource source, BooleanSupplier accepted) {
         if (!holder.level().isClientSide() && holder.hasEffect(ShieldEffects.ZOMBIE_TRUCE.get())
                 && source.getEntity() instanceof LivingEntity attacker && attacker != holder) {
             PENDING_COMMANDS.addLast(new PendingCommand(holder, attacker, accepted));
         }
     }
-
-    @SubscribeEvent
-    public static void onServerTick(TickEvent.ServerTickEvent event) {
-        if (event.phase != TickEvent.Phase.END) return;
-        // Wait until later listeners have finalized damage/block cancellation and amounts.
-        while (!PENDING_COMMANDS.isEmpty()) {
-            PendingCommand pending = PENDING_COMMANDS.removeFirst();
-            LivingEntity holder = pending.holder();
-            LivingEntity attacker = pending.attacker();
-            if (!pending.accepted().getAsBoolean() || !attacker.isAlive()
-                    || holder.level() != attacker.level()) continue;
-            ReinforcementOrders orders = ReinforcementOrders.get(event.getServer());
-            var truce = holder.getEffect(ShieldEffects.ZOMBIE_TRUCE.get());
-            long validUntil = ReinforcementOrders.now(event.getServer()) + (truce == null ? 1 : truce.getDuration());
-            orders.command(holder.getUUID(), attacker, validUntil);
-        }
-        if (event.getServer().getTickCount() % 200 == 0) {
-            ReinforcementOrders.get(event.getServer()).prune(ReinforcementOrders.now(event.getServer()));
-        }
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onJoinLevel(EntityJoinLevelEvent event) {
-        if (!event.getLevel().isClientSide() && event.getEntity() instanceof Zombie zombie && isSummoned(zombie)) {
-            // Only alter goals here; world/entity lookups wait until the first tick to avoid chunk-load deadlocks.
-            clearTargetSelector(zombie);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getEntity();
-        var truce = player.getEffect(ShieldEffects.ZOMBIE_TRUCE.get());
-        if (truce == null || !player.getPersistentData().contains(TRUCE_EXPIRY_TAG)) return;
-        long remaining = player.getPersistentData().getLong(TRUCE_EXPIRY_TAG)
-                - ReinforcementOrders.now(player.getServer());
-        if (remaining < truce.getDuration()) {
-            player.removeEffect(ShieldEffects.ZOMBIE_TRUCE.get());
-            if (remaining > 0) player.addEffect(new MobEffectInstance(ShieldEffects.ZOMBIE_TRUCE.get(),
-                    (int) remaining, truce.getAmplifier(), truce.isAmbient(), truce.isVisible(), truce.showIcon()));
-        }
-    }
-
-    @SubscribeEvent
-    public static void onServerStopped(ServerStoppedEvent event) { PENDING_COMMANDS.clear(); }
 
     private record PendingCommand(LivingEntity holder, LivingEntity attacker, BooleanSupplier accepted) {}
 
@@ -208,41 +259,5 @@ public final class RottenFleshReinforcements {
     private static boolean isOwnedBy(Zombie zombie, LivingEntity holder) {
         CompoundTag state = zombie.getPersistentData().getCompound(SUMMON_TAG);
         return state.hasUUID("owner") && state.getUUID("owner").equals(holder.getUUID());
-    }
-
-    @SubscribeEvent
-    public static void onZombieTick(LivingEvent.LivingTickEvent event) {
-        if (event.getEntity().level().isClientSide() || !(event.getEntity() instanceof Zombie zombie)) return;
-        if (!isSummoned(zombie)) return;
-        CompoundTag state = zombie.getPersistentData().getCompound(SUMMON_TAG);
-        ServerLevel level = (ServerLevel) zombie.level();
-        long now = ReinforcementOrders.now(level.getServer());
-        if (now >= state.getLong("expiresAt")) {
-            zombie.discard();
-            return;
-        }
-        if (state.hasUUID("owner")) {
-            var order = ReinforcementOrders.get(level.getServer()).find(state.getUUID("owner"), now);
-            if (order != null) {
-                state.putUUID("target", order.target());
-                state.putString("targetDimension", order.dimension());
-            }
-        }
-        // Keep the assigned target even when unloaded temporarily; never pick an unrelated target.
-        LivingEntity target = resolveTarget(level, state);
-        if (zombie.getTarget() != target) {
-            zombie.getNavigation().stop();
-            zombie.setTarget(target);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onSummonDrops(LivingDropsEvent event) {
-        if (isSummoned(event.getEntity())) event.setCanceled(true);
-    }
-
-    @SubscribeEvent
-    public static void onSummonExperience(LivingExperienceDropEvent event) {
-        if (isSummoned(event.getEntity())) event.setDroppedExperience(0);
     }
 }

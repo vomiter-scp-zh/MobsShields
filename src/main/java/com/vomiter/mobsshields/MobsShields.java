@@ -27,6 +27,7 @@ public final class MobsShields {
         context.registerConfig(ModConfig.Type.COMMON, ShieldConfig.SPEC);
         MinecraftForge.EVENT_BUS.register(CounterattackHandler.class);
         MinecraftForge.EVENT_BUS.register(RottenFleshReinforcements.class);
+        RottenFleshReinforcements.init();
     }
 
     private void creativeTab(BuildCreativeModeTabContentsEvent event) {
