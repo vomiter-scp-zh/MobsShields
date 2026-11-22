@@ -1,5 +1,6 @@
 package com.vomiter.mobsshields.data;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.vomiter.mobsshields.registry.ShieldItems;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -40,9 +41,15 @@ public final class ShieldMobEquipment implements DataProvider {
         json.addProperty("use_duration", 60);
         json.addProperty("cooldown_duration", 60);
         json.addProperty("check_continue_to_use_interval", 10);
-        json.addProperty("shield_id", itemId.toString());
-        json.addProperty("chance", chance);
-        json.addProperty("min_difficulty", 2);
+        json.addProperty("spawn_chance", chance);
+        json.addProperty("replace", false);
+        JsonObject entry = new JsonObject();
+        entry.addProperty("shield_id", itemId.toString());
+        entry.addProperty("weight", 1);
+        entry.addProperty("min_difficulty", 2.5);
+        JsonArray shields = new JsonArray();
+        shields.add(entry);
+        json.add("shields", shields);
 
         Path outputPath = output.getOutputFolder(PackOutput.Target.DATA_PACK).resolve( entityTypeId.getNamespace() + "/mob_shield");
 

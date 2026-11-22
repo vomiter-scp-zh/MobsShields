@@ -26,10 +26,12 @@ public final class ShieldTooltips {
     public static void onTooltip(ItemTooltipEvent event) {
         if (!(event.getItemStack().getItem() instanceof AbstractMobShieldItem shield)) return;
         List<Component> lines = event.getToolTip();
-        boolean hoglinLoot = shield instanceof HoglinShieldItem hoglin && !hoglin.isGolden();
-        if (hoglinLoot || shield instanceof SquidShieldItem) {
+        String lootSource = shield instanceof HoglinShieldItem hoglin
+                ? (hoglin.isGolden() ? "golden_hoglin_source" : "bastion")
+                : shield instanceof SquidShieldItem ? "ocean" : null;
+        if (lootSource != null) {
             if (Screen.hasShiftDown()) {
-                lines.add(text(hoglinLoot ? "bastion" : "ocean"));
+                lines.add(text(lootSource));
             } else {
                 lines.add(text("loot_hint").withStyle(ChatFormatting.GRAY));
             }

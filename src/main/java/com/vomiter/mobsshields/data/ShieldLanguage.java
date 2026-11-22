@@ -22,7 +22,8 @@ public final class ShieldLanguage extends LanguageProvider {
         add(ShieldItems.SQUID_SHIELD.get(), chinese ? "烏賊盾" : "Squid Shield");
         add("tooltip.mobsshields.loot_hint", chinese ? "按住 [Shift] 查看獲取途徑。" : "Hold [Shift] to see loot source.");
         add("tooltip.mobsshields.counter_hint", chinese ? "按住 [Ctrl] 查看反擊效果。" : "Hold [Ctrl] to see counterattack effects.");
-        add("tooltip.mobsshields.bastion", chinese ? "  堡壘遺跡的疣豬獸欄箱與一般箱" : "  Bastion remnants: hoglin stable and generic chests");
+        add("tooltip.mobsshields.bastion", chinese ? "  堡壘遺跡的疣豬獸欄箱與一般箱" : "  Bastion remnants hoglin stable and generic chests");
+        add("tooltip.mobsshields.golden_hoglin_source", chinese ? "堡壘遺跡的寶藏室。" : "Bastion remnant treasure room chests.");
         add("tooltip.mobsshields.ocean", chinese ? "  沉船寶箱、大型海底廢墟寶箱" : "  Shipwreck treasure chests and large ocean ruin chests");
         add("tooltip.mobsshields.on_block", chinese ? "格擋近戰攻擊時" : "When blocking a melee attack");
         add("tooltip.mobsshields.damage", chinese ? "  對攻擊者造成 %s 點傷害" : "  Deals %s damage to the attacker");

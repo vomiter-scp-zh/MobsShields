@@ -15,6 +15,7 @@
   "tooltip.mobsshields.counter_hint": "按住 [Ctrl] 查看反擊效果。",
   "tooltip.mobsshields.damage": "  對攻擊者造成 %s 點傷害",
   "tooltip.mobsshields.disabled": "  目前設定已停用此反擊效果",
+  "tooltip.mobsshields.golden_hoglin_source": "堡壘遺跡的寶藏室。",
   "tooltip.mobsshields.ink": "  噴墨，使攻擊者陷入黑暗 %s 秒",
   "tooltip.mobsshields.knockback": "  擊退攻擊者",
   "tooltip.mobsshields.loot_hint": "按住 [Shift] 查看獲取途徑。",

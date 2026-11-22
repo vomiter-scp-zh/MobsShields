@@ -1,8 +1,14 @@
 {
-  "chance": 0.1,
   "check_continue_to_use_interval": 10,
   "cooldown_duration": 60,
-  "min_difficulty": 2,
-  "shield_id": "mobsshields:wither_rib_shield",
+  "replace": false,
+  "shields": [
+    {
+      "min_difficulty": 2.5,
+      "shield_id": "mobsshields:wither_rib_shield",
+      "weight": 1
+    }
+  ],
+  "spawn_chance": 0.1,
   "use_duration": 60
 }
