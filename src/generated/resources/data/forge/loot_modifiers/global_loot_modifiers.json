@@ -2,6 +2,7 @@
   "entries": [
     "mobsshields:chests/bastion_hoglin_stable",
     "mobsshields:chests/shipwreck_treasure",
+    "mobsshields:chests/bastion_treasure",
     "mobsshields:chests/bastion_other",
     "mobsshields:chests/underwater_ruin_big"
   ],

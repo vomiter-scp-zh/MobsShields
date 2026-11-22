@@ -24,11 +24,11 @@ public final class ShieldConfig {
     static {
         ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         builder.push("counterattack");
-        HOGLIN_KNOCKBACK = builder.comment("Extra knockback after blocking a direct melee hit.")
+        HOGLIN_KNOCKBACK = builder.comment("Extra knockback after using a hoglin shield to block a direct melee hit.")
                 .defineInRange("hoglinKnockback", 0.35, 0.0, 4.0);
         GOLDEN_KNOCKBACK = builder.defineInRange("goldenHoglinKnockback", 1.1, 0.0, 4.0);
-        GOLDEN_DAMAGE = builder.comment("Damage points, before armor; 2 points = 1 heart.")
-                .defineInRange("goldenHoglinDamage", 4.0, 0.0, 40.0);
+        GOLDEN_DAMAGE = builder.comment("Damage caused by golden hoglin shield counterattack")
+                .defineInRange("goldenHoglinDamage", 3.0, 0.0, 40.0);
         SQUID_DARKNESS_TICKS = builder.comment("Darkness duration after a squid shield blocks melee; 0 disables darkness.")
                 .defineInRange("squidDarknessTicks", 60, 0, 1200);
         SQUID_RETREAT_SPEED = builder.comment("Horizontal retreat speed in water, in blocks per tick; 0 disables retreat.")
@@ -37,9 +37,9 @@ public final class ShieldConfig {
         builder.push("rottenFleshShield");
         ROTTEN_SUMMON_CHANCE = builder.comment("Chance per eligible melee counterattack to summon one zombie.")
                 .defineInRange("summonChance", 0.25, 0.0, 1.0);
-        ROTTEN_LIFETIME_TICKS = builder.comment("Shared summon and Zombie Truce duration in server ticks; unloaded summons expire on the same clock.")
+        ROTTEN_LIFETIME_TICKS = builder.comment("Time span from a reinforcement zombie spawning to its despawning.")
                 .defineInRange("lifetimeTicks", 600, 20, 12000);
-        ROTTEN_MAX_NEARBY = builder.comment("Maximum living summons belonging to this holder within 32 blocks.")
+        ROTTEN_MAX_NEARBY = builder.comment("Maximum living summons belonging to a shield holder within 32 blocks.")
                 .defineInRange("maxNearbySummons", 3, 1, 16);
         builder.pop();
         builder.push("witherRibShield");

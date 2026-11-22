@@ -1,0 +1,14 @@
+{
+  "type": "mobsshields:add_shield",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/bastion_treasure"
+    },
+    {
+      "chance": 0.5,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "shield": "mobsshields:golden_hoglin_shield"
+}

@@ -28,11 +28,5 @@ public final class ShieldRecipes extends RecipeProvider {
                 .define('F', Items.ROTTEN_FLESH)
                 .define('S', Items.SHIELD)
                 .unlockedBy("has_rotten_flesh", has(Items.ROTTEN_FLESH)).save(recipes);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ShieldItems.GOLDEN_HOGLIN_SHIELD.get())
-                .pattern("GGG").pattern("GSG").pattern(" G ")
-                .define('G', Tags.Items.INGOTS_GOLD)
-                .define('S', ShieldItems.HOGLIN_SHIELD.get())
-                .unlockedBy("has_hoglin_shield", has(ShieldItems.HOGLIN_SHIELD.get())).save(recipes);
     }
 }

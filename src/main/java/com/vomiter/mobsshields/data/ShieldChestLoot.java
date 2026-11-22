@@ -1,7 +1,7 @@
 package com.vomiter.mobsshields.data;
 
 import com.vomiter.mobsshields.MobsShields;
-import com.vomiter.mobsshields.common.loot.AddShieldLootModifier;
+import com.vomiter.mobsshields.data.loot.AddShieldLootModifier;
 import com.vomiter.mobsshields.registry.ShieldItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -20,6 +20,7 @@ public final class ShieldChestLoot extends GlobalLootModifierProvider {
     @Override
     protected void start() {
         chest(BuiltInLootTables.BASTION_HOGLIN_STABLE, ShieldItems.HOGLIN_SHIELD.get(), 0.20F);
+        chest(BuiltInLootTables.BASTION_TREASURE, ShieldItems.GOLDEN_HOGLIN_SHIELD.get(), 0.5F);
         chest(BuiltInLootTables.BASTION_OTHER, ShieldItems.HOGLIN_SHIELD.get(), 0.10F);
         chest(BuiltInLootTables.SHIPWRECK_TREASURE, ShieldItems.SQUID_SHIELD.get(), 0.15F);
         chest(BuiltInLootTables.UNDERWATER_RUIN_BIG, ShieldItems.SQUID_SHIELD.get(), 0.10F);

@@ -83,6 +83,17 @@ public final class ShieldCounterattacks {
     private static void witherEffect(CounterattackContext context, MobEffect effect, double chance) {
         int duration = ShieldConfig.WITHER_EFFECT_TICKS.get();
         if (duration > 0 && context.level().random.nextDouble() < chance) {
+            Vec3 attackerPos = context.attacker().position();
+            //add soul particle
+            context.level().sendParticles(
+                    ParticleTypes.SOUL,
+                    attackerPos.x,
+                    attackerPos.y + context.attacker().getBbHeight() * 0.5,
+                    attackerPos.z,
+                    4,
+                    0.3, 0.4, 0.3,
+                    0.02
+            );
             context.attacker().addEffect(new MobEffectInstance(effect, duration, 0), context.holder());
         }
     }

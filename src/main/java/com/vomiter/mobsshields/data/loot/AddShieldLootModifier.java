@@ -1,4 +1,4 @@
-package com.vomiter.mobsshields.common.loot;
+package com.vomiter.mobsshields.data.loot;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
