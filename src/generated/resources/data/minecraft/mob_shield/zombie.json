@@ -4,11 +4,10 @@
   "replace": false,
   "shields": [
     {
-      "min_difficulty": 2.5,
+      "min_difficulty": 2.0,
       "shield_id": "mobsshields:rotten_flesh_shield",
-      "weight": 1
+      "weight": 1.0
     }
   ],
-  "spawn_chance": 0.05,
   "use_duration": 60
 }

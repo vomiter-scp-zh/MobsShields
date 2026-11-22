@@ -4,9 +4,14 @@
   "replace": false,
   "shields": [
     {
-      "min_difficulty": 2.5,
+      "min_difficulty": 2.0,
+      "shield_id": "mobsshields:hoglin_shield",
+      "weight": 1.0
+    },
+    {
+      "min_difficulty": 3.0,
       "shield_id": "mobsshields:golden_hoglin_shield",
-      "weight": 1
+      "weight": 0.5
     }
   ],
   "spawn_chance": 0.1,

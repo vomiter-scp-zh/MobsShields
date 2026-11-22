@@ -6,9 +6,8 @@
     {
       "min_difficulty": 2.5,
       "shield_id": "mobsshields:wither_rib_shield",
-      "weight": 1
+      "weight": 0.5
     }
   ],
-  "spawn_chance": 0.1,
   "use_duration": 60
 }

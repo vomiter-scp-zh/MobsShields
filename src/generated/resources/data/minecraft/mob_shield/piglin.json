@@ -6,9 +6,8 @@
     {
       "min_difficulty": 2.5,
       "shield_id": "mobsshields:hoglin_shield",
-      "weight": 1
+      "weight": 1.0
     }
   ],
-  "spawn_chance": 0.15,
   "use_duration": 60
 }
